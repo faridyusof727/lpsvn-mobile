@@ -1,3 +1,6 @@
 {
-  "activity": "Aktiviti"
+  "activity": "Aktiviti",
+  "registered": "Pendaftaran\nDiterima",
+  "booking": "Tempah",
+  "submit": "Hantar"
 }

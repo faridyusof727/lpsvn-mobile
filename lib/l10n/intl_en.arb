@@ -1,3 +1,6 @@
 {
-  "activity": "Activity"
+  "activity": "Activity",
+  "registered": "Registered\nSuccessfully",
+  "booking": "Book",
+  "submit": "Submit"
 }

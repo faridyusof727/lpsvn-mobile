@@ -1,15 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:lpsvn_general/configs/theme.dart';
 import 'package:lpsvn_general/controllers/nag_friend_controler.dart';
+import 'package:lpsvn_general/generated/l10n.dart';
 
-class ScreenNagFriend extends StatelessWidget {
+import '../../components/toast_done.dart';
+
+class ScreenNagFriend extends StatefulWidget {
   const ScreenNagFriend({Key? key}) : super(key: key);
+
+  @override
+  State<ScreenNagFriend> createState() => _ScreenNagFriendState();
+}
+
+class _ScreenNagFriendState extends State<ScreenNagFriend> {
+  final toast = FToast();
+
+  @override
+  void initState() {
+    super.initState();
+
+    toast.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     Get.put(NagFriendController());
+
+    void showDoneToast() => toast.showToast(
+        child: doneToast(S.of(context).registered),
+        gravity: ToastGravity.CENTER);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +134,8 @@ class ScreenNagFriend extends StatelessWidget {
                           onPressed: () {},
                         ),
                         style: const TextStyle(color: Colors.black),
-                        placeholderStyle: const TextStyle(color: Colors.black45),
+                        placeholderStyle:
+                            const TextStyle(color: Colors.black45),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
@@ -138,7 +161,8 @@ class ScreenNagFriend extends StatelessWidget {
                           onPressed: () {},
                         ),
                         style: const TextStyle(color: Colors.black),
-                        placeholderStyle: const TextStyle(color: Colors.black45),
+                        placeholderStyle:
+                            const TextStyle(color: Colors.black45),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
@@ -163,7 +187,8 @@ class ScreenNagFriend extends StatelessWidget {
                           onPressed: () {},
                         ),
                         style: const TextStyle(color: Colors.black),
-                        placeholderStyle: const TextStyle(color: Colors.black45),
+                        placeholderStyle:
+                            const TextStyle(color: Colors.black45),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
@@ -259,7 +284,8 @@ class ScreenNagFriend extends StatelessWidget {
                         autocorrect: false,
                         keyboardType: TextInputType.multiline,
                         style: const TextStyle(color: Colors.black),
-                        placeholderStyle: const TextStyle(color: Colors.black45),
+                        placeholderStyle:
+                            const TextStyle(color: Colors.black45),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
@@ -269,7 +295,7 @@ class ScreenNagFriend extends StatelessWidget {
                       ),
                       const SizedBox(height: sectionSpacingNormal),
                       GestureDetector(
-                        onTap: null,
+                        onTap: showDoneToast,
                         child: Container(
                           decoration: BoxDecoration(
                             color: defaultColorPrimary,
@@ -278,10 +304,10 @@ class ScreenNagFriend extends StatelessWidget {
                           ),
                           height: 40,
                           width: double.infinity,
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Hantar",
-                              style: TextStyle(
+                              S.of(context).submit,
+                              style: const TextStyle(
                                   fontSize: textSizeNormal,
                                   color: defaultColorContra,
                                   fontWeight: FontWeight.w900),

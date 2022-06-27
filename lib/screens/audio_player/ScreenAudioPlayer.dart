@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:lpsvn_general/configs/theme.dart';
@@ -12,16 +13,40 @@ class ScreenAudioPlayer extends StatefulWidget {
 class _ScreenAudioPlayerState extends State<ScreenAudioPlayer> {
   final AudioPlayer audioPlayer = AudioPlayer();
   bool isPlaying = false;
+  bool isSeeking = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
 
-  final url = 'http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3';
+  final url =
+      "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3";
 
   @override
   void initState() {
     super.initState();
 
-    audioPlayer.setSourceUrl(url);
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        isPlaying = state == PlayerState.playing;
+      });
+    });
+
+    audioPlayer.onDurationChanged.listen((newDuration) {
+      setState(() {
+        duration = newDuration;
+      });
+    });
+
+    audioPlayer.onPositionChanged.listen((newPosition) {
+      setState(() {
+        position = newPosition;
+      });
+    });
+
+    audioPlayer.onSeekComplete.listen((status) {
+      setState(() {
+        isSeeking = false;
+      });
+    });
   }
 
   @override
@@ -66,7 +91,13 @@ class _ScreenAudioPlayerState extends State<ScreenAudioPlayer> {
                 min: 0,
                 max: duration.inSeconds.toDouble(),
                 value: position.inSeconds.toDouble(),
-                onChanged: (value) async {}),
+                onChanged: (value) async {
+                  final position = Duration(seconds: value.toInt());
+                  setState(() {
+                    isSeeking = true;
+                  });
+                  await audioPlayer.seek(position);
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -92,14 +123,15 @@ class _ScreenAudioPlayerState extends State<ScreenAudioPlayer> {
             CircleAvatar(
               radius: 35,
               child: IconButton(
-                icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                icon: isSeeking
+                    ? const CupertinoActivityIndicator()
+                    : Icon(isPlaying ? Icons.pause : Icons.play_arrow),
                 iconSize: 50,
                 onPressed: () async {
                   if (isPlaying) {
                     await audioPlayer.pause();
                   } else {
-                    String abc = "jk";
-                    await audioPlayer.play();
+                    await audioPlayer.play(UrlSource(url));
                   }
                 },
               ),

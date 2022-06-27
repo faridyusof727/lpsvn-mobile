@@ -59,6 +59,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Registered\nSuccessfully`
+  String get registered {
+    return Intl.message(
+      'Registered\nSuccessfully',
+      name: 'registered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book`
+  String get booking {
+    return Intl.message(
+      'Book',
+      name: 'booking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

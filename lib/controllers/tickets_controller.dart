@@ -9,6 +9,15 @@ class TicketsController extends GetxController {
     "https://picsum.photos/id/948/200/300",
   ];
 
+  int selectedVisitTimeIndex = 0;
+
+  List<String> visitTimes = [
+    "10:00am",
+    "12:00pm",
+    "2:00pm",
+    "4:00pm"
+  ];
+
   void toRuleScreen() {
     Get.to(const ScreenRule());
   }
@@ -17,5 +26,10 @@ class TicketsController extends GetxController {
     Get.to(
       const ScreenNagFriend(),
     );
+  }
+
+  void selectVisitTime(String value) {
+    selectedVisitTimeIndex = visitTimes.indexOf(value);
+    update();
   }
 }
