@@ -1,0 +1,1 @@
+const int httpSuccessStatusCode = 200;
